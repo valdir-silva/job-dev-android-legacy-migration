@@ -1,0 +1,12 @@
+[
+  {"id": 1, "name": "Hambúrguer Clássico", "description": "Pão, carne 150g, queijo, alface e tomate.", "price": 24.90, "imageUrl": ""},
+  {"id": 2, "name": "Hambúrguer Bacon", "description": "Carne 180g, bacon crocante, cheddar, maionese da casa.", "price": 29.90, "imageUrl": ""},
+  {"id": 3, "name": "Veggie Burger", "description": "Grão-de-bico, abobrinha grelhada, cebola caramelizada.", "price": 27.50, "imageUrl": ""},
+  {"id": 4, "name": "Batata Frita", "description": "Porção individual crocante.", "price": 12.00, "imageUrl": ""},
+  {"id": 5, "name": "Batata Rústica", "description": "Batatas rústicas com alecrim e sal grosso.", "price": 16.00, "imageUrl": ""},
+  {"id": 6, "name": "Refrigerante Lata", "description": "350 ml – diversos sabores.", "price": 7.00, "imageUrl": ""},
+  {"id": 7, "name": "Suco Natural", "description": "Laranja espremida na hora.", "price": 9.50, "imageUrl": ""},
+  {"id": 8, "name": "Milkshake", "description": "Chocolate ou morango.", "price": 18.00, "imageUrl": ""},
+  {"id": 9, "name": "Brownie", "description": "Com calda de chocolate.", "price": 14.00, "imageUrl": ""},
+  {"id": 10, "name": "Sorvete", "description": "2 bolas – sabores do dia.", "price": 10.00, "imageUrl": ""}
+]

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cadápio Android</string>
+    <string name="menu_title">Cardápio</string>
+    <string name="loading">Carregando…</string>
+    <string name="error_generic">Ocorreu um erro ao carregar o cardápio.</string>
+    <string name="retry">Tentar novamente</string>
+    <string name="price">Preço: R$ %1$.2f</string>
+</resources>
