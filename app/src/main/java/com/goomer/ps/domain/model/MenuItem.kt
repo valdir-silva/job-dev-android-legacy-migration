@@ -1,14 +1,9 @@
 package com.goomer.ps.domain.model
 
-class MenuItem {
-    @JvmField
-    var id: Int = 0
-    @JvmField
-    var name: String? = null
-    @JvmField
-    var description: String? = null
-    @JvmField
-    var price: Double = 0.0
-    @JvmField
-    var imageUrl: String? = null
-}
+data class MenuItem(
+    val id: Int = 0,
+    @JvmField val name: String? = null,
+    @JvmField val description: String? = null,
+    @JvmField val price: Double = 0.0,
+    val imageUrl: String? = null
+)
