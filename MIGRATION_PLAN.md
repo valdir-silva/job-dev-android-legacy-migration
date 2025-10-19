@@ -7,7 +7,7 @@ Migrar fluxo de lista de produtos para Kotlin + MVVM + Clean Architecture + Koin
 
 ### Fase 1: Base Arquitetural
 - [x] Configurar Kotlin + dependências (Koin, Coroutines, Flow, Gson)
-- [ ] Criar estrutura de pacotes Clean Architecture:
+- [x] Criar estrutura de pacotes Clean Architecture:
   ```
   presentation/ (Activities, ViewModels, Adapters)
   domain/ (UseCases, Models, Repository interfaces)
