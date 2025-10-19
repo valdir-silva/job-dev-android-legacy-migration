@@ -17,10 +17,10 @@ Migrar fluxo de lista de produtos para Kotlin + MVVM + Clean Architecture + Koin
   - Gson annotarions ficou como débito técnico para a próxima fase por motivos de interoperabilidade
 
 ### Fase 2: Camada de Dados
-- [ ] Repository pattern (`MenuRepository` interface + `MenuRepositoryImpl`)
-- [ ] DataSource (`LocalMenuDataSource` - migrado de `LegacyDataSource`)
-- [ ] DTOs com Gson (`MenuItemDto`, `MenuResponseDto`)
-- [ ] Mappers (`MenuItemMapper` - DTO -> Domain)
+- [x] Repository pattern (`MenuRepository` interface + `MenuRepositoryImpl`)
+- [x] DataSource (`LocalMenuDataSource` - migrado de `LegacyDataSource`)
+- [x] DTOs com Gson (`MenuItemDto`, `MenuResponseDto`)
+- [x] Mappers (`MenuItemMapper` - DTO -> Domain)
 
 ### Fase 3: Camada de Domínio
 - [ ] Use Case (`GetMenuItemsUseCase`)
