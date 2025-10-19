@@ -13,7 +13,8 @@ Migrar fluxo de lista de produtos para Kotlin + MVVM + Clean Architecture + Koin
   domain/ (UseCases, Models, Repository interfaces)
   data/ (Repository impl, DataSources, DTOs)
   ```
-- [ ] Migrar `MenuItem` para Kotlin data class com Gson annotations
+- [x] Migrar `MenuItem` para Kotlin data class com Gson annotations
+  - Gson annotarions ficou como débito técnico para a próxima fase por motivos de interoperabilidade
 
 ### Fase 2: Camada de Dados
 - [ ] Repository pattern (`MenuRepository` interface + `MenuRepositoryImpl`)
