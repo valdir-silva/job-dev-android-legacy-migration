@@ -1,7 +1,8 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
 }
 
 android {
@@ -66,6 +67,12 @@ android {
     }
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
+}
+
 dependencies {
     // Android Core Bundle
     implementation(libs.bundles.androidx.core)
@@ -76,11 +83,7 @@ dependencies {
     // Koin Dependency Injection Bundle
     implementation(libs.bundles.koin)
 
-    // Moshi JSON Serialization Bundle
-    implementation(libs.bundles.moshi)
-    ksp(libs.moshi.kotlin.codegen)
-
-    // Legacy Gson
+    // Gson JSON Serialization
     implementation(libs.gson)
 
     // Testing Bundle
