@@ -1,9 +1,12 @@
-package com.goomer.ps;
+package com.goomer.ps
 
-public class MenuItem {
-    public int id;
-    public String name;
-    public String description;
-    public double price;
-    public String imageUrl;
+class MenuItem {
+    var id: Int = 0
+    @JvmField
+    var name: String? = null
+    @JvmField
+    var description: String? = null
+    @JvmField
+    var price: Double = 0.0
+    var imageUrl: String? = null
 }
