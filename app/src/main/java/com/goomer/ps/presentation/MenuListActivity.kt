@@ -1,4 +1,4 @@
-package com.goomer.ps
+package com.goomer.ps.presentation
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,12 @@ import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.goomer.ps.legacy.LegacyAsyncTask
+import com.goomer.ps.legacy.LegacyDataSource
+import com.goomer.ps.legacy.MenuAdapter
+import com.goomer.ps.legacy.MenuDetailActivity
+import com.goomer.ps.R
+import com.goomer.ps.domain.model.MenuItem
 
 class MenuListActivity : AppCompatActivity(), MenuAdapter.OnItemClickListener {
     private var rvMenu: RecyclerView? = null

@@ -1,6 +1,8 @@
-package com.goomer.ps;
+package com.goomer.ps.legacy;
 
 import android.os.AsyncTask;
+
+import com.goomer.ps.domain.model.MenuItem;
 
 import java.util.List;
 

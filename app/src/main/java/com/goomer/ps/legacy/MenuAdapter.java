@@ -1,4 +1,4 @@
-package com.goomer.ps;
+package com.goomer.ps.legacy;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +7,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.goomer.ps.R;
+import com.goomer.ps.domain.model.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
