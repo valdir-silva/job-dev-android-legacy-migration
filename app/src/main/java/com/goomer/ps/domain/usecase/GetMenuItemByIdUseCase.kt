@@ -4,50 +4,32 @@ import com.goomer.ps.domain.model.MenuItem
 import com.goomer.ps.domain.model.CardapioResult
 import com.goomer.ps.domain.repository.CardapioRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 
 class GetMenuItemByIdUseCase(
     private val repository: CardapioRepository
-) {
+) : SampleFlowUseCase<MenuItem, Int>() {
 
     /**
-     * Executa o use case para obter um item específico do menu.
-     *
-     * @param itemId ID do item a ser buscado
-     * @return Flow de MenuResult contendo o item ou erro
+     * @param parameters ID do item a ser buscado
+     * @return Flow com CardapioResult contendo o item
      */
-    fun invoke(itemId: Int): Flow<CardapioResult<MenuItem>> {
-        if (itemId <= 0) {
+    override suspend fun execute(parameters: Int): Flow<CardapioResult<MenuItem>> {
+        if (parameters <= 0) {
             return flowOf(
-                CardapioResult.Error(
-                    message = "ID inválido: $itemId",
-                    throwable = IllegalArgumentException("ID deve ser maior que zero")
+                CardapioResult.Failure(
+                    throwable = IllegalArgumentException("ID inválido: $parameters. ID deve ser maior que zero")
                 )
             )
         }
-        
-        return flow {
-            emit(CardapioResult.Loading)
-            try {
-                repository.getMenuItemById(itemId).collect { item ->
-                    if (item != null) {
-                        emit(CardapioResult.Success(item))
-                    } else {
-                        emit(
-                            CardapioResult.Error(
-                                message = "Item não encontrado: ID $itemId",
-                                throwable = null
-                            )
-                        )
-                    }
-                }
-            } catch (exception: Exception) {
-                emit(
-                    CardapioResult.Error(
-                        message = "Erro ao carregar item do menu: ${exception.message}",
-                        throwable = exception
-                    )
+
+        return repository.getMenuItemById(parameters).map { item ->
+            if (item != null) {
+                CardapioResult.Success(item)
+            } else {
+                CardapioResult.Failure(
+                    throwable = Exception("Item não encontrado: ID $parameters")
                 )
             }
         }

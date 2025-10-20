@@ -3,89 +3,96 @@ package com.goomer.ps.presentation
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.goomer.ps.legacy.LegacyAsyncTask
-import com.goomer.ps.legacy.LegacyDataSource
+import com.goomer.ps.databinding.ActivityMenuListBinding
+import com.goomer.ps.domain.model.CardapioResult
+import com.goomer.ps.domain.model.MenuItem
 import com.goomer.ps.legacy.MenuAdapter
 import com.goomer.ps.legacy.MenuDetailActivity
-import com.goomer.ps.R
-import com.goomer.ps.domain.model.MenuItem
+import com.goomer.ps.presentation.viewmodel.MenuListViewModel
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MenuListActivity : AppCompatActivity(), MenuAdapter.OnItemClickListener {
-    private var rvMenu: RecyclerView? = null
-    private var progressBar: ProgressBar? = null
-    private var errorContainer: LinearLayout? = null
-    private var btnRetry: Button? = null
 
-    private var adapter: MenuAdapter? = null
+    private lateinit var binding: ActivityMenuListBinding
+
+    private val viewModel: MenuListViewModel by viewModel()
+
+    private lateinit var adapter: MenuAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_menu_list)
+        binding = ActivityMenuListBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        rvMenu = findViewById(R.id.rvMenu)
-        progressBar = findViewById(R.id.progressBar)
-        errorContainer = findViewById(R.id.errorContainer)
-        btnRetry = findViewById(R.id.btnRetry)
+        setupRecyclerView()
+        setupListeners()
+        observeUiState()
 
-        adapter = MenuAdapter(this)
-        rvMenu?.setLayoutManager(LinearLayoutManager(this))
-        rvMenu?.setAdapter(adapter)
-
-        btnRetry?.setOnClickListener { v: View? -> loadData() }
-
-        loadData()
+        viewModel.loadMenu()
     }
 
-    private fun loadData() {
-        showLoading()
-        val ds = LegacyDataSource(this)
-        LegacyAsyncTask(ds, object : LegacyAsyncTask.Listener {
-            override fun onLoaded(items: MutableList<MenuItem?>?) {
-                runOnUiThread {
-                    hideLoading()
-                    adapter?.submitList(items)
-                }
-            }
+    private fun setupRecyclerView() {
+        adapter = MenuAdapter(this)
+        binding.rvMenu.apply {
+            layoutManager = LinearLayoutManager(this@MenuListActivity)
+            this.adapter = this@MenuListActivity.adapter
+        }
+    }
 
-            override fun onFailed(e: Exception?) {
-                runOnUiThread {
-                    showError()
+    private fun setupListeners() {
+        binding.btnRetry.setOnClickListener {
+            viewModel.retry()
+        }
+    }
+
+    private fun observeUiState() {
+        lifecycleScope.launch {
+            viewModel.uiState.collect { result ->
+                when (result) {
+                    is CardapioResult.Loading -> showLoading()
+                    is CardapioResult.Success -> showSuccess(result.value)
+                    is CardapioResult.Failure -> showError(
+                        result.throwable?.message ?: "Erro desconhecido"
+                    )
                 }
             }
-        }).execute()
+        }
     }
 
     private fun showLoading() {
-        progressBar?.visibility = View.VISIBLE
-        errorContainer?.visibility = View.GONE
-        rvMenu?.visibility = View.GONE
+        binding.progressBar.visibility = View.VISIBLE
+        binding.errorContainer.visibility = View.GONE
+        binding.rvMenu.visibility = View.GONE
     }
 
-    private fun hideLoading() {
-        progressBar?.visibility = View.GONE
-        errorContainer?.visibility = View.GONE
-        rvMenu?.visibility = View.VISIBLE
+    private fun showSuccess(items: List<MenuItem>) {
+        binding.progressBar.visibility = View.GONE
+        binding.errorContainer.visibility = View.GONE
+        binding.rvMenu.visibility = View.VISIBLE
+        
+        adapter.submitList(items)
     }
 
-    private fun showError() {
-        progressBar?.visibility = View.GONE
-        errorContainer?.visibility = View.VISIBLE
-        rvMenu?.visibility = View.GONE
+    private fun showError(message: String) {
+        binding.progressBar.visibility = View.GONE
+        binding.errorContainer.visibility = View.VISIBLE
+        binding.rvMenu.visibility = View.GONE
+
+         binding.tvError.text = message
     }
 
     override fun onItemClick(item: MenuItem) {
-        val it = Intent(this, MenuDetailActivity::class.java)
-        it.putExtra("id", item.id)
-        it.putExtra("name", item.name)
-        it.putExtra("description", item.description)
-        it.putExtra("price", item.price)
-        it.putExtra("imageUrl", item.imageUrl)
-        startActivity(it)
+        val intent = Intent(this, MenuDetailActivity::class.java).apply {
+            putExtra("id", item.id)
+            putExtra("name", item.name)
+            putExtra("description", item.description)
+            putExtra("price", item.price)
+            putExtra("imageUrl", item.imageUrl)
+        }
+        startActivity(intent)
     }
 }

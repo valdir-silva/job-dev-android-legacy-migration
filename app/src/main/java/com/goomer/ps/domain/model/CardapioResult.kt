@@ -1,53 +1,82 @@
 package com.goomer.ps.domain.model
 
 /**
- * Sealed class que representa o resultado de operações na camada de domínio.
- * 
- * Esta classe encapsula os possíveis estados de uma operação assíncrona,
- * permitindo tratamento explícito de sucesso, erro e loading.
- *
- * Uso:
- * ```kotlin
- * when (result) {
- *     is MenuResult.Success -> { /* tratar sucesso */ }
- *     is MenuResult.Error -> { /* tratar erro */ }
- *     is MenuResult.Loading -> { /* mostrar loading */ }
- * }
- * ```
+ * @param R Tipo do dado retornado em caso de sucesso
  */
-sealed class CardapioResult<out T> {
+sealed class CardapioResult<out R>(val content: R? = null) {
+
+    /**
+     * @param value Dados retornados pela operação
+     */
+    data class Success<out R>(val value: R) : CardapioResult<R>(value)
     
     /**
-     * Representa o estado de carregamento de dados.
-     * Usado para indicar que uma operação está em andamento.
+     * @param throwable Exceção que causou a falha (opcional)
      */
-    object Loading : CardapioResult<Nothing>()
-    
-    /**
-     * Representa uma operação bem-sucedida.
-     * 
-     * @param data Os dados retornados pela operação
-     */
-    data class Success<T>(val data: T) : CardapioResult<T>()
-    
-    /**
-     * Representa uma operação que falhou.
-     * 
-     * @param message Mensagem de erro amigável ao usuário
-     * @param throwable Exceção original (opcional, para logging/debug)
-     */
-    data class Error(
-        val message: String,
-        val throwable: Throwable? = null
-    ) : CardapioResult<Nothing>()
+    data class Failure(val throwable: Throwable? = null) : CardapioResult<Nothing>()
+    data class Loading(val unit: Unit = Unit) : CardapioResult<Nothing>()
 
     val isSuccess: Boolean
         get() = this is Success
-
-    val isError: Boolean
-        get() = this is Error
-
+    val isFailure: Boolean
+        get() = this is Failure
     val isLoading: Boolean
         get() = this is Loading
+
+    /**
+     * @return Valor em caso de Success, null para Loading ou Failure
+     */
+    fun getOrNull(): R? = when (this) {
+        is Success -> content
+        else -> null
+    }
+
+    /**
+     * @return Throwable em caso de Failure, null para Loading ou Success
+     */
+    fun throwableOrNull(): Throwable? = when (this) {
+        is Failure -> throwable
+        else -> null
+    }
 }
 
+/**
+ * @param block Bloco de código a ser executado
+ * @return CardapioResult com o resultado da execução
+ */
+inline fun <T> onResult(block: () -> T): CardapioResult<T> {
+    return try {
+        CardapioResult.Success(requireNotNull(block()))
+    } catch (e: Throwable) {
+        CardapioResult.Failure(e)
+    }
+}
+
+/**
+ * @param block Bloco de código a ser executado com o valor de sucesso
+ * @return CardapioResult original ou Failure se o bloco lançar exceção
+ */
+@Suppress("UNCHECKED_CAST")
+inline fun <T> CardapioResult<T>.onResultSuccess(block: (T) -> Unit): CardapioResult<T> {
+    return takeIf { isSuccess }?.let {
+        onResult {
+            block(requireNotNull(content as T))
+        }.throwableOrNull()
+    }?.let { throwable ->
+        CardapioResult.Failure(throwable)
+    } ?: this
+}
+
+/**
+ * @param block Bloco de código a ser executado com a exceção
+ * @return CardapioResult original ou Failure se o bloco lançar exceção
+ */
+inline fun <T> CardapioResult<T>.onResultFailure(block: (Throwable) -> Unit): CardapioResult<T> {
+    return throwableOrNull()?.let { throwable ->
+        onResult {
+            block(throwable)
+        }.throwableOrNull()
+    }?.let { throwable ->
+        CardapioResult.Failure(throwable)
+    } ?: this
+}
