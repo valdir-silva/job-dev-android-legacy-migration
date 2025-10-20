@@ -88,6 +88,7 @@ dependencies {
 
     // Testing Bundle
     testImplementation(libs.bundles.testing)
+    testImplementation(libs.bundles.mockito)
     testImplementation(libs.koin.test)
     testImplementation(libs.kotlinx.coroutines.test)
 }
