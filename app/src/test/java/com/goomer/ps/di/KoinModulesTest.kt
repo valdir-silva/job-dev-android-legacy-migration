@@ -3,11 +3,13 @@ package com.goomer.ps.di
 import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import com.google.gson.Gson
+import com.goomer.ps.data.datasource.LocalCardapioDataSource
 import com.goomer.ps.domain.repository.CardapioRepository
 import com.goomer.ps.domain.usecase.GetMenuItemByIdUseCase
 import com.goomer.ps.domain.usecase.GetMenuItemsUseCase
 import com.goomer.ps.presentation.viewmodel.MenuListViewModel
 import org.junit.After
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import org.koin.android.ext.koin.androidContext
@@ -61,12 +63,16 @@ class KoinModulesTest : KoinTest {
         val getMenuItemByIdUseCase: GetMenuItemByIdUseCase by inject()
         val viewModel: MenuListViewModel by inject()
 
-        // Verificar que as instâncias não são null
-        assert(gson != null)
-        assert(repository != null)
-        assert(getMenuItemsUseCase != null)
-        assert(getMenuItemByIdUseCase != null)
-        assert(viewModel != null)
+        // Verificar que as instâncias não são null e o grafo está completo
+        assertNotNull(gson)
+        assertNotNull(repository)
+        assertNotNull(getMenuItemsUseCase)
+        assertNotNull(getMenuItemByIdUseCase)
+        assertNotNull(viewModel)
+        
+        // Verificar que as dependências foram resolvidas corretamente
+        assertNotNull(repository)
+        assertNotNull(getMenuItemsUseCase)
     }
 
     @Test
@@ -77,7 +83,10 @@ class KoinModulesTest : KoinTest {
         }
 
         val repository: CardapioRepository by inject()
-        assert(repository != null)
+        val localDataSource: LocalCardapioDataSource by inject()
+        
+        assertNotNull(repository)
+        assertNotNull(localDataSource)
     }
 
     @Test
@@ -89,9 +98,11 @@ class KoinModulesTest : KoinTest {
 
         val getMenuItemsUseCase: GetMenuItemsUseCase by inject()
         val getMenuItemByIdUseCase: GetMenuItemByIdUseCase by inject()
+        val repository: CardapioRepository by inject()
         
-        assert(getMenuItemsUseCase != null)
-        assert(getMenuItemByIdUseCase != null)
+        assertNotNull(getMenuItemsUseCase)
+        assertNotNull(getMenuItemByIdUseCase)
+        assertNotNull(repository)
     }
 
     @Test
@@ -110,7 +121,10 @@ class KoinModulesTest : KoinTest {
         }
 
         val viewModel: MenuListViewModel by inject()
-        assert(viewModel != null)
+        val useCase: GetMenuItemsUseCase by inject()
+        
+        assertNotNull(viewModel)
+        assertNotNull(useCase)
     }
 
     @Test
@@ -120,7 +134,12 @@ class KoinModulesTest : KoinTest {
         }
 
         val gson: Gson by inject()
-        assert(gson != null)
+        
+        assertNotNull(gson)
+        
+        // Verificar que Gson está configurado corretamente
+        val testJson = """{"test": "value"}"""
+        val parsed = gson.fromJson(testJson, Map::class.java)
+        assertNotNull(parsed)
     }
 }
-
