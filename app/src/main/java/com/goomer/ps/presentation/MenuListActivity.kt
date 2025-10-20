@@ -55,9 +55,7 @@ class MenuListActivity : AppCompatActivity(), MenuAdapter.OnItemClickListener {
                 when (result) {
                     is CardapioResult.Loading -> showLoading()
                     is CardapioResult.Success -> showSuccess(result.value)
-                    is CardapioResult.Failure -> showError(
-                        result.throwable?.message ?: "Erro desconhecido"
-                    )
+                    is CardapioResult.Failure -> showError(result.throwable?.message)
                 }
             }
         }
@@ -77,12 +75,12 @@ class MenuListActivity : AppCompatActivity(), MenuAdapter.OnItemClickListener {
         adapter.submitList(items)
     }
 
-    private fun showError(message: String) {
+    private fun showError(message: String?) {
         binding.progressBar.visibility = View.GONE
         binding.errorContainer.visibility = View.VISIBLE
         binding.rvMenu.visibility = View.GONE
 
-         binding.tvError.text = message
+         binding.tvError.text = message.orEmpty()
     }
 
     override fun onItemClick(item: MenuItem) {
