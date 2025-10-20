@@ -73,6 +73,8 @@ kotlin {
     }
 }
 
+apply(plugin = "kotlin-parcelize")
+
 dependencies {
     // Android Core Bundle
     implementation(libs.bundles.androidx.core)
