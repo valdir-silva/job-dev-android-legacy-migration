@@ -1,5 +1,6 @@
 package com.goomer.ps.di
 
+import android.app.Application
 import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import com.google.gson.Gson
@@ -26,11 +27,21 @@ class KoinModulesTest : KoinTest {
     private lateinit var mockContext: Context
 
     @Mock
+    private lateinit var mockApplication: Application
+
+    @Mock
     private lateinit var mockSavedStateHandle: SavedStateHandle
 
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
+        // Configurar mock do Application para retornar strings
+        org.mockito.kotlin
+            .whenever(mockApplication.getString(org.mockito.kotlin.any()))
+            .thenReturn("mock_string")
+        org.mockito.kotlin
+            .whenever(mockApplication.getString(org.mockito.kotlin.any(), org.mockito.kotlin.any()))
+            .thenReturn("mock_string")
     }
 
     @After
@@ -49,6 +60,7 @@ class KoinModulesTest : KoinTest {
                 domainModule,
                 presentationModule,
                 module {
+                    single { mockApplication }
                     factory { mockSavedStateHandle }
                 },
             )
@@ -112,6 +124,7 @@ class KoinModulesTest : KoinTest {
                 domainModule,
                 presentationModule,
                 module {
+                    single { mockApplication }
                     factory { mockSavedStateHandle }
                 },
             )
