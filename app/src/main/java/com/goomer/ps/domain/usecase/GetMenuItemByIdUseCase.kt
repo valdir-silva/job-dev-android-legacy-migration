@@ -1,5 +1,6 @@
 package com.goomer.ps.domain.usecase
 
+import com.goomer.ps.domain.exception.ErrorCode
 import com.goomer.ps.domain.model.CardapioResult
 import com.goomer.ps.domain.model.MenuItem
 import com.goomer.ps.domain.repository.CardapioRepository
@@ -18,7 +19,7 @@ class GetMenuItemByIdUseCase(
         if (parameters <= 0) {
             return flowOf(
                 CardapioResult.Failure(
-                    throwable = IllegalArgumentException("ID inválido: $parameters. ID deve ser maior que zero"),
+                    throwable = IllegalArgumentException(ErrorCode.INVALID_ID.name),
                 ),
             )
         }
@@ -28,7 +29,7 @@ class GetMenuItemByIdUseCase(
                 CardapioResult.Success(item)
             } else {
                 CardapioResult.Failure(
-                    throwable = Exception("Item não encontrado: ID $parameters"),
+                    throwable = Exception(ErrorCode.ITEM_NOT_FOUND.name),
                 )
             }
         }

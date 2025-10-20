@@ -1,7 +1,9 @@
 package com.goomer.ps.presentation.viewmodel
 
+import android.app.Application
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
+import com.goomer.ps.R
 import com.goomer.ps.domain.model.CardapioResult
 import com.goomer.ps.domain.model.MenuItem
 import com.goomer.ps.domain.usecase.GetMenuItemsUseCase
@@ -24,6 +26,7 @@ import kotlin.test.assertTrue
 class MenuListViewModelTest {
     private lateinit var mockUseCase: GetMenuItemsUseCase
     private lateinit var mockSavedStateHandle: SavedStateHandle
+    private lateinit var mockApplication: Application
     private lateinit var viewModel: MenuListViewModel
     private val testDispatcher = StandardTestDispatcher()
 
@@ -32,7 +35,14 @@ class MenuListViewModelTest {
         Dispatchers.setMain(testDispatcher)
         mockUseCase = mock()
         mockSavedStateHandle = mock()
-        viewModel = MenuListViewModel(mockUseCase, mockSavedStateHandle)
+        mockApplication = mock()
+        whenever(mockApplication.getString(R.string.saved_state_menu_items)).thenReturn("menuItems")
+        whenever(mockApplication.getString(R.string.error_invalid_id, 0))
+            .thenReturn("ID inválido: 0. ID deve ser maior que zero")
+        whenever(mockApplication.getString(R.string.error_item_not_found, 0)).thenReturn("Item não encontrado: ID 0")
+        whenever(mockApplication.getString(R.string.error_load_menu))
+            .thenReturn("Erro ao carregar o cardápio. Por favor, tente novamente.")
+        viewModel = MenuListViewModel(mockUseCase, mockSavedStateHandle, mockApplication)
     }
 
     @After

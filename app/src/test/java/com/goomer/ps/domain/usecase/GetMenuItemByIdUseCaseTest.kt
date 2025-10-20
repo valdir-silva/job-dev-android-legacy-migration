@@ -1,5 +1,6 @@
 package com.goomer.ps.domain.usecase
 
+import com.goomer.ps.domain.exception.ErrorCode
 import com.goomer.ps.domain.model.CardapioResult
 import com.goomer.ps.domain.model.MenuItem
 import com.goomer.ps.domain.repository.CardapioRepository
@@ -55,7 +56,7 @@ class GetMenuItemByIdUseCaseTest {
             // Then
             assertTrue(result is CardapioResult.Failure)
             val errorResult = result as CardapioResult.Failure
-            assertTrue(errorResult.throwable?.message?.contains("Item não encontrado") == true)
+            assertEquals(ErrorCode.ITEM_NOT_FOUND.name, errorResult.throwable?.message)
         }
 
     @Test
@@ -68,7 +69,7 @@ class GetMenuItemByIdUseCaseTest {
             assertTrue(results[0] is CardapioResult.Loading)
             assertTrue(results[1] is CardapioResult.Failure)
             val errorResult = results[1] as CardapioResult.Failure
-            assertTrue(errorResult.throwable?.message?.contains("ID inválido") == true)
+            assertEquals(ErrorCode.INVALID_ID.name, errorResult.throwable?.message)
         }
 
     @Test
@@ -81,7 +82,7 @@ class GetMenuItemByIdUseCaseTest {
             assertTrue(results[0] is CardapioResult.Loading)
             assertTrue(results[1] is CardapioResult.Failure)
             val errorResult = results[1] as CardapioResult.Failure
-            assertTrue(errorResult.throwable?.message?.contains("ID inválido") == true)
+            assertEquals(ErrorCode.INVALID_ID.name, errorResult.throwable?.message)
         }
 
     @Test

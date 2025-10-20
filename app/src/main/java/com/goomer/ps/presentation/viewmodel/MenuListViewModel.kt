@@ -1,8 +1,11 @@
 package com.goomer.ps.presentation.viewmodel
 
+import android.app.Application
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.goomer.ps.R
+import com.goomer.ps.domain.exception.ErrorCode
 import com.goomer.ps.domain.model.CardapioResult
 import com.goomer.ps.domain.model.MenuItem
 import com.goomer.ps.domain.usecase.GetMenuItemsUseCase
@@ -14,12 +17,15 @@ import kotlinx.coroutines.launch
 class MenuListViewModel(
     private val getMenuItemsUseCase: GetMenuItemsUseCase,
     private val savedStateHandle: SavedStateHandle,
+    private val application: Application,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<CardapioResult<List<MenuItem>>>(CardapioResult.Loading())
     val uiState: StateFlow<CardapioResult<List<MenuItem>>> = _uiState.asStateFlow()
 
+    private val savedStateKey = application.getString(R.string.saved_state_menu_items)
+
     init {
-        val savedData = savedStateHandle.get<List<MenuItem>>(SAVED_STATE_KEY)
+        val savedData = savedStateHandle.get<List<MenuItem>>(savedStateKey)
         if (savedData != null) {
             _uiState.value = CardapioResult.Success(savedData)
         }
@@ -32,7 +38,7 @@ class MenuListViewModel(
             getMenuItemsUseCase().collect { result ->
                 _uiState.value = result
                 if (result is CardapioResult.Success) {
-                    savedStateHandle[SAVED_STATE_KEY] = result.value
+                    savedStateHandle[savedStateKey] = result.value
                 }
             }
         }
@@ -43,7 +49,10 @@ class MenuListViewModel(
         loadMenu()
     }
 
-    private companion object {
-        const val SAVED_STATE_KEY = "menuItems"
-    }
+    fun getErrorMessage(throwable: Throwable?): String =
+        when (throwable?.message) {
+            ErrorCode.INVALID_ID.name -> application.getString(R.string.error_invalid_id, 0)
+            ErrorCode.ITEM_NOT_FOUND.name -> application.getString(R.string.error_item_not_found, 0)
+            else -> application.getString(R.string.error_load_menu)
+        }
 }
