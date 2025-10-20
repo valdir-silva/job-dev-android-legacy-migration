@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.reflect.Type
 
-class LocalMenuDataSource(
+class LocalCardapioDataSource(
     private val context: Context
 ) {
     
