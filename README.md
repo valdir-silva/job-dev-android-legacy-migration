@@ -1,6 +1,6 @@
-# Cadápio Android
+# Cardápio Android
 
-Este repositório é uma base legada (Java + XML) para um desafio técnico de modernização incremental.
+Aplicativo de demonstração de cardápio com arquitetura moderna e migração incremental de código legado.
 
 - App name: Cadápio Android
 - Package: `com.goomer.ps`
@@ -9,34 +9,55 @@ Este repositório é uma base legada (Java + XML) para um desafio técnico de mo
 
 ## Como rodar
 - Android Studio (versão estável atual) com JDK 17
-- Abrir a pasta `cardapio-app/` no Android Studio
-- Sincronizar Gradle
-- Rodar o app no emulador/dispositivo: módulo `app` (Build/Run padrão)
-- Testes: `./gradlew test`
+- Android SDK com API 34
+- Gradle 8.0+
 
-## Desafio (o que você deve fazer)
-- Migrar o fluxo da lista de produtos para Kotlin, mantendo os layouts em XML
-- Escolher e implementar uma arquitetura bem definida
-- Adicionar injeção de dependência (Hilt/Koin/Dagger – escolher e justificar)
-- Escrever 2–5 testes unitários relevantes
-- Tratar estados de loading/erro na UI atual sem mudar o layout visual
-- Entregar documentação curta: `ARCHITECTURE.md` e `MIGRATION_PLAN.md`
-- Bônus: CI simples (GitHub Actions), `detekt/ktlint`, `Flow/LiveData`, modularização
+### Executar o app
+```bash
+# Sincronizar dependências
+./gradlew build
 
-## Critérios
-- Arquitetura (clareza de camadas, separação, dependências)
-- Migração incremental e interoperabilidade (Java/XML + Kotlin convivendo)
-- Qualidade e testabilidade (testes úteis, simplicidade, consistência)
-- Resiliência e UX de estados (loading/erro sem alterar layout)
-- Comunicação técnica (documentos e trade-offs)
-- Automação (build/test; CI é bônus)
+# Rodar testes
+./gradlew test
 
-## Observações
-- Não reescreva o app. Faça o mínimo necessário para tornar o fluxo sustentável e testável
-- Não introduza Compose como dependência central (opcional e isolado apenas como bônus)
-- Não altere o visual dos layouts
+# Executar no emulador/dispositivo
+./gradlew installDebug
+```
 
-## Entregáveis
+### Build variants
+- `debug` - Build de desenvolvimento com logging habilitado
+- `mock` - Build com dados mockados para testes
+- `preProd` - Build de pré-produção
+- `release` - Build de produção com ProGuard
 
-- Repositório com código funcional e histórico de commits claro
-- `ARCHITECTURE.md`, `MIGRATION_PLAN.md`, `README.md` com passos de build/run e decisões e plano de migração
+## Arquitetura
+
+O projeto implementa **Clean Architecture + MVVM** com as seguintes camadas:
+
+- **Presentation**: ViewModels, Activities, Adapters (UI e estado)
+- **Domain**: UseCases, Repository interfaces, Models (lógica de negócio)
+- **Data**: Repository impl, DataSources, DTOs, Mappers (acesso a dados)
+
+### Tecnologias
+
+- **Kotlin** + **Coroutines** + **Flow/StateFlow** para programação assíncrona
+- **Koin** para injeção de dependências
+- **Gson** para serialização JSON
+- **ktlint** + **detekt** para qualidade de código
+- **GitHub Actions** para CI/CD
+
+## Documentação
+
+- [`ARCHITECTURE.md`](ARCHITECTURE.md) - Decisões arquiteturais e trade-offs
+- [`MIGRATION_PLAN.md`](MIGRATION_PLAN.md) - Plano de migração incremental
+
+## Entregas realizadas
+
+✅ Migração do fluxo de lista de produtos para Kotlin
+✅ Implementação de Clean Architecture + MVVM
+✅ Injeção de dependências com Koin
+✅ Tratamento de estados (Loading/Success/Error) com sealed classes
+✅ Testes unitários (ViewModels, UseCases, Repository)
+✅ CI/CD com GitHub Actions
+✅ Code quality com ktlint e detekt
+✅ Documentação técnica completa
