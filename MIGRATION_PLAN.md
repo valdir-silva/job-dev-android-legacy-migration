@@ -52,8 +52,8 @@ Migrar fluxo de lista de produtos para Kotlin + MVVM + Clean Architecture + Koin
 - [x] Limpar warnings e aplicar sugestões
 
 ### Fase 8: Documentação
-- [ ] `ARCHITECTURE.md` completo
-- [ ] Atualizar `README.md`
+- [x] `ARCHITECTURE.md` completo
+- [x] Atualizar `README.md`
 
 ## Decisões Técnicas
 
