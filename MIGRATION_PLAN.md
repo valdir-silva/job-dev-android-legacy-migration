@@ -41,10 +41,10 @@ Migrar fluxo de lista de produtos para Kotlin + MVVM + Clean Architecture + Koin
 - [x] Configurar Application class com Koin
 
 ### Fase 6: Testes
-- [ ] Testar `MenuListViewModel` (estados Loading/Success/Error)
-- [ ] Testar `MenuRepository` (mapeamento DTO -> Domain)
-- [ ] Testar `GetMenuItemsUseCase` (lógica de negócio)
-- [ ] Testar Koin modules (grafo de dependências)
+- [x] Testar `MenuListViewModel` (estados Loading/Success/Error)
+- [x] Testar `MenuRepository` (mapeamento DTO -> Domain)
+- [x] Testar `GetMenuItemsUseCase` (lógica de negócio)
+- [x] Testar Koin modules (grafo de dependências)
 
 ### Fase 7: Qualidade
 - [ ] Configurar detekt + ktlint
