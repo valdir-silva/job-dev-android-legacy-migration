@@ -49,7 +49,7 @@ Migrar fluxo de lista de produtos para Kotlin + MVVM + Clean Architecture + Koin
 ### Fase 7: Qualidade
 - [x] Configurar detekt + ktlint
 - [x] GitHub Actions CI
-- [ ] Limpar warnings e aplicar sugestões
+- [x] Limpar warnings e aplicar sugestões
 
 ### Fase 8: Documentação
 - [ ] `ARCHITECTURE.md` completo
