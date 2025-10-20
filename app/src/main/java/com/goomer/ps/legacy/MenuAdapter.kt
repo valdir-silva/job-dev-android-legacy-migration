@@ -1,70 +1,61 @@
-package com.goomer.ps.legacy;
+package com.goomer.ps.legacy
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.goomer.ps.databinding.ItemMenuBinding
+import com.goomer.ps.domain.model.MenuItem
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+/**
+ * @param listener Callback para quando um item é clicado
+ */
+class MenuAdapter(
+    private val listener: OnItemClickListener?
+) : ListAdapter<MenuItem, MenuAdapter.MenuViewHolder>(MenuItemDiffCallback()) {
 
-import com.goomer.ps.R;
-import com.goomer.ps.domain.model.MenuItem;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.VH> {
-
-    public interface OnItemClickListener {
-        void onItemClick(MenuItem item);
+    interface OnItemClickListener {
+        fun onItemClick(item: MenuItem)
     }
 
-    private final List<MenuItem> items = new ArrayList<>();
-    private final OnItemClickListener listener;
-
-    public MenuAdapter(OnItemClickListener listener) {
-        this.listener = listener;
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
+        val binding = ItemMenuBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return MenuViewHolder(binding)
     }
 
-    public void submitList(List<MenuItem> newItems) {
-        items.clear();
-        if (newItems != null) items.addAll(newItems);
-        notifyDataSetChanged();
+    override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
+        holder.bind(getItem(position), listener)
     }
 
-    @NonNull
-    @Override
-    public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_menu, parent, false);
-        return new VH(v);
-    }
+    class MenuViewHolder(
+        private val binding: ItemMenuBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-    @Override
-    public void onBindViewHolder(@NonNull VH holder, int position) {
-        MenuItem item = items.get(position);
-        holder.name.setText(item.name);
-        holder.description.setText(item.description);
-        holder.price.setText(holder.itemView.getContext().getString(R.string.price, item.price));
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null) listener.onItemClick(item);
-        });
-    }
+        fun bind(item: MenuItem, listener: OnItemClickListener?) {
+            binding.apply {
+                tvName.text = item.name
+                tvDescription.text = item.description
+                tvPrice.text = root.context.getString(
+                    com.goomer.ps.R.string.price,
+                    item.price
+                )
 
-    @Override
-    public int getItemCount() {
-        return items.size();
-    }
-
-    static class VH extends RecyclerView.ViewHolder {
-        TextView name;
-        TextView description;
-        TextView price;
-        VH(@NonNull View itemView) {
-            super(itemView);
-            name = itemView.findViewById(R.id.tvName);
-            description = itemView.findViewById(R.id.tvDescription);
-            price = itemView.findViewById(R.id.tvPrice);
+                root.setOnClickListener {
+                    listener?.onItemClick(item)
+                }
+            }
         }
+    }
+
+    private class MenuItemDiffCallback : DiffUtil.ItemCallback<MenuItem>() {
+
+        override fun areItemsTheSame(oldItem: MenuItem, newItem: MenuItem): Boolean = oldItem.id == newItem.id
+
+        override fun areContentsTheSame(oldItem: MenuItem, newItem: MenuItem): Boolean = oldItem == newItem
     }
 }
