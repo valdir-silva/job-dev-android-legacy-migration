@@ -28,17 +28,17 @@ Migrar fluxo de lista de produtos para Kotlin + MVVM + Clean Architecture + Koin
 - [x] Repository interface (`MenuRepository`)
 
 ### Fase 4: Camada de Apresentação
-- [ ] ViewModel (`MenuListViewModel`) com StateFlow
-- [ ] UI States (`MenuListUiState` sealed class)
-- [ ] Migrar `MenuListActivity` para Kotlin + ViewBinding
-- [ ] Migrar `MenuAdapter` para Kotlin + DiffUtil
+- [x] ViewModel (`MenuListViewModel`) com StateFlow
+- [x] UI States (`MenuListUiState` sealed class)
+- [x] Migrar `MenuListActivity` para Kotlin + ViewBinding
+- [x] Migrar `MenuAdapter` para Kotlin + DiffUtil
 
 ### Fase 5: Injeção de Dependências
-- [ ] Koin modules:
+- [x] Koin modules:
   - `AppModule` (Application scope)
   - `DataModule` (Repository, DataSource)
   - `PresentationModule` (ViewModels)
-- [ ] Configurar Application class com Koin
+- [x] Configurar Application class com Koin
 
 ### Fase 6: Testes
 - [ ] Testar `MenuListViewModel` (estados Loading/Success/Error)
