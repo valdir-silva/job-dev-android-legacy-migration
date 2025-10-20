@@ -13,9 +13,8 @@ import kotlinx.coroutines.launch
 
 class MenuListViewModel(
     private val getMenuItemsUseCase: GetMenuItemsUseCase,
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow<CardapioResult<List<MenuItem>>>(CardapioResult.Loading())
     val uiState: StateFlow<CardapioResult<List<MenuItem>>> = _uiState.asStateFlow()
 
@@ -28,7 +27,7 @@ class MenuListViewModel(
 
     fun loadMenu() {
         if (_uiState.value is CardapioResult.Success) return
-        
+
         viewModelScope.launch {
             getMenuItemsUseCase().collect { result ->
                 _uiState.value = result
@@ -48,4 +47,3 @@ class MenuListViewModel(
         const val SAVED_STATE_KEY = "menuItems"
     }
 }
-

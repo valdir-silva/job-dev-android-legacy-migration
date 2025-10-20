@@ -12,5 +12,5 @@ data class MenuItemDto(
     @SerializedName("price")
     val price: Double,
     @SerializedName("imageUrl")
-    val imageUrl: String
+    val imageUrl: String,
 )

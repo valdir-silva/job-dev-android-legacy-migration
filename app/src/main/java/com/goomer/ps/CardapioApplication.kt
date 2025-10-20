@@ -11,17 +11,17 @@ import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
 class CardapioApplication : Application() {
-
     override fun onCreate() {
         super.onCreate()
 
         startKoin {
             androidLogger(
-                level = if (BuildConfig.DEBUG) {
-                    Level.DEBUG
-                } else {
-                    Level.ERROR
-                }
+                level =
+                    if (BuildConfig.DEBUG) {
+                        Level.DEBUG
+                    } else {
+                        Level.ERROR
+                    },
             )
 
             androidContext(this@CardapioApplication)
@@ -30,7 +30,7 @@ class CardapioApplication : Application() {
                 appModule,
                 dataModule,
                 domainModule,
-                presentationModule
+                presentationModule,
             )
         }
     }

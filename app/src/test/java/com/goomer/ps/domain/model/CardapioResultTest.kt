@@ -1,10 +1,12 @@
 package com.goomer.ps.domain.model
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class CardapioResultTest {
-
     @Test
     fun `Loading deve ter propriedades corretas`() {
         // Given
@@ -222,10 +224,11 @@ class CardapioResultTest {
         var capturedException: Throwable? = null
 
         // When
-        val result = failure.onResultFailure { e ->
-            executed = true
-            capturedException = e
-        }
+        val result =
+            failure.onResultFailure { e ->
+                executed = true
+                capturedException = e
+            }
 
         // Then
         assertTrue(executed)

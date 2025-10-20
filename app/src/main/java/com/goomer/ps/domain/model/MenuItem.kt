@@ -9,5 +9,5 @@ data class MenuItem(
     @JvmField val name: String? = null,
     @JvmField val description: String? = null,
     @JvmField val price: Double = 0.0,
-    val imageUrl: String? = null
+    val imageUrl: String? = null,
 ) : Parcelable

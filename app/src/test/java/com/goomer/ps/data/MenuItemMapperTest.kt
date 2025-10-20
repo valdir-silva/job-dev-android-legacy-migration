@@ -9,17 +9,17 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class MenuItemMapperTest {
-
     @Test
     fun `toDomain should convert DTO to domain model correctly`() {
         // Given
-        val dto = MenuItemDto(
-            id = 1,
-            name = "Hambúrguer Clássico",
-            description = "Pão, carne 150g, queijo, alface e tomate.",
-            price = 24.90,
-            imageUrl = "https://example.com/image.jpg"
-        )
+        val dto =
+            MenuItemDto(
+                id = 1,
+                name = "Hambúrguer Clássico",
+                description = "Pão, carne 150g, queijo, alface e tomate.",
+                price = 24.90,
+                imageUrl = "https://example.com/image.jpg",
+            )
 
         // When
         val domain = dto.toDomain()
@@ -30,23 +30,24 @@ class MenuItemMapperTest {
         assertEquals(
             "Descrição deve ser igual",
             "Pão, carne 150g, queijo, alface e tomate.",
-            domain.description
+            domain.description,
         )
         assertEquals("Preço deve ser igual", 24.90, domain.price, 0.001)
         assertEquals(
             "URL da imagem deve ser igual",
             "https://example.com/image.jpg",
-            domain.imageUrl
+            domain.imageUrl,
         )
     }
 
     @Test
     fun `toDomainList should convert list of DTOs to domain models correctly`() {
         // Given
-        val dtoList = listOf(
-            MenuItemDto(1, "Item 1", "Desc 1", 10.0, "url1"),
-            MenuItemDto(2, "Item 2", "Desc 2", 20.0, "url2"),
-        )
+        val dtoList =
+            listOf(
+                MenuItemDto(1, "Item 1", "Desc 1", 10.0, "url1"),
+                MenuItemDto(2, "Item 2", "Desc 2", 20.0, "url2"),
+            )
 
         // When
         val domainList = dtoList.toDomainList()
@@ -60,13 +61,14 @@ class MenuItemMapperTest {
     @Test
     fun `toDto should convert domain model to DTO correctly`() {
         // Given
-        val domain = MenuItem(
-            id = 1,
-            name = "Hambúrguer Clássico",
-            description = "Pão, carne 150g, queijo, alface e tomate.",
-            price = 24.90,
-            imageUrl = "https://example.com/image.jpg",
-        )
+        val domain =
+            MenuItem(
+                id = 1,
+                name = "Hambúrguer Clássico",
+                description = "Pão, carne 150g, queijo, alface e tomate.",
+                price = 24.90,
+                imageUrl = "https://example.com/image.jpg",
+            )
 
         // When
         val dto = domain.toDto()
@@ -77,7 +79,7 @@ class MenuItemMapperTest {
         assertEquals(
             "Descrição deve ser igual",
             "Pão, carne 150g, queijo, alface e tomate.",
-            dto.description
+            dto.description,
         )
         assertEquals("Preço deve ser igual", 24.90, dto.price, 0.001)
         assertEquals("URL da imagem deve ser igual", "https://example.com/image.jpg", dto.imageUrl)
@@ -86,13 +88,14 @@ class MenuItemMapperTest {
     @Test
     fun `toDto should handle null values correctly`() {
         // Given
-        val domain = MenuItem(
-            id = 1,
-            name = null,
-            description = null,
-            price = 0.0,
-            imageUrl = null,
-        )
+        val domain =
+            MenuItem(
+                id = 1,
+                name = null,
+                description = null,
+                price = 0.0,
+                imageUrl = null,
+            )
 
         // When
         val dto = domain.toDto()

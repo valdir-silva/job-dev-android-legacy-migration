@@ -25,7 +25,7 @@ android {
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
             buildConfigField("String", "BASE_URL", "\"https://api.production.com/\"")
             buildConfigField("boolean", "ENABLE_LOGGING", "false")
@@ -88,7 +88,7 @@ ktlint {
 dependencies {
     // Android Core Bundle
     implementation(libs.bundles.androidx.core)
-    
+
     // Kotlin Coroutines Bundle
     implementation(libs.bundles.kotlin.coroutines)
 
