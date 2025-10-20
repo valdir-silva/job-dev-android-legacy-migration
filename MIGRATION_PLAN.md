@@ -23,9 +23,9 @@ Migrar fluxo de lista de produtos para Kotlin + MVVM + Clean Architecture + Koin
 - [x] Mappers (`MenuItemMapper` - DTO -> Domain)
 
 ### Fase 3: Camada de Domínio
-- [ ] Use Case (`GetMenuItemsUseCase`)
-- [ ] Domain models (`MenuItem`, `MenuResult`)
-- [ ] Repository interface (`MenuRepository`)
+- [x] Use Case (`GetMenuItemsUseCase`, `GetMenuItemByIdUseCase`)
+- [x] Domain models (`MenuItem`, `MenuResult`)
+- [x] Repository interface (`MenuRepository`)
 
 ### Fase 4: Camada de Apresentação
 - [ ] ViewModel (`MenuListViewModel`) com StateFlow
