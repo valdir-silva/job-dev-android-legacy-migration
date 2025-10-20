@@ -6,21 +6,22 @@ import com.goomer.ps.data.mapper.MenuItemMapper.toDomainList
 import com.goomer.ps.data.mapper.MenuItemMapper.toDto
 import com.goomer.ps.data.mapper.MenuItemMapper.toDtoList
 import com.goomer.ps.domain.model.MenuItem
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class MenuItemMapperTest {
-
     @Test
     fun `toDomain deve mapear DTO para Domain corretamente`() {
         // Given
-        val dto = MenuItemDto(
-            id = 1,
-            name = "Pizza Margherita",
-            description = "Pizza com tomate e manjericão",
-            price = 29.90,
-            imageUrl = "https://example.com/pizza.jpg"
-        )
+        val dto =
+            MenuItemDto(
+                id = 1,
+                name = "Pizza Margherita",
+                description = "Pizza com tomate e manjericão",
+                price = 29.90,
+                imageUrl = "https://example.com/pizza.jpg",
+            )
 
         // When
         val domain = dto.toDomain()
@@ -36,10 +37,11 @@ class MenuItemMapperTest {
     @Test
     fun `toDomainList deve mapear lista de DTOs para Domain`() {
         // Given
-        val dtoList = listOf(
-            MenuItemDto(id = 1, name = "Pizza", description = "Pizza", price = 29.90, imageUrl = ""),
-            MenuItemDto(id = 2, name = "Hamburguer", description = "Hamburguer", price = 19.90, imageUrl = "")
-        )
+        val dtoList =
+            listOf(
+                MenuItemDto(id = 1, name = "Pizza", description = "Pizza", price = 29.90, imageUrl = ""),
+                MenuItemDto(id = 2, name = "Hamburguer", description = "Hamburguer", price = 19.90, imageUrl = ""),
+            )
 
         // When
         val domainList = dtoList.toDomainList()
@@ -67,13 +69,14 @@ class MenuItemMapperTest {
     @Test
     fun `toDto deve mapear Domain para DTO corretamente`() {
         // Given
-        val domain = MenuItem(
-            id = 1,
-            name = "Pizza Margherita",
-            description = "Pizza com tomate e manjericão",
-            price = 29.90,
-            imageUrl = "https://example.com/pizza.jpg"
-        )
+        val domain =
+            MenuItem(
+                id = 1,
+                name = "Pizza Margherita",
+                description = "Pizza com tomate e manjericão",
+                price = 29.90,
+                imageUrl = "https://example.com/pizza.jpg",
+            )
 
         // When
         val dto = domain.toDto()
@@ -89,13 +92,14 @@ class MenuItemMapperTest {
     @Test
     fun `toDto deve tratar valores null corretamente`() {
         // Given
-        val domain = MenuItem(
-            id = 1,
-            name = null,
-            description = null,
-            price = 29.90,
-            imageUrl = null
-        )
+        val domain =
+            MenuItem(
+                id = 1,
+                name = null,
+                description = null,
+                price = 29.90,
+                imageUrl = null,
+            )
 
         // When
         val dto = domain.toDto()
@@ -111,10 +115,11 @@ class MenuItemMapperTest {
     @Test
     fun `toDtoList deve mapear lista de Domain para DTO`() {
         // Given
-        val domainList = listOf(
-            MenuItem(id = 1, name = "Pizza", description = "Pizza", price = 29.90, imageUrl = ""),
-            MenuItem(id = 2, name = "Hamburguer", description = "Hamburguer", price = 19.90, imageUrl = "")
-        )
+        val domainList =
+            listOf(
+                MenuItem(id = 1, name = "Pizza", description = "Pizza", price = 29.90, imageUrl = ""),
+                MenuItem(id = 2, name = "Hamburguer", description = "Hamburguer", price = 19.90, imageUrl = ""),
+            )
 
         // When
         val dtoList = domainList.toDtoList()
@@ -142,13 +147,14 @@ class MenuItemMapperTest {
     @Test
     fun `mapeamento bidirecional deve preservar dados`() {
         // Given
-        val originalDto = MenuItemDto(
-            id = 1,
-            name = "Pizza Margherita",
-            description = "Pizza com tomate e manjericão",
-            price = 29.90,
-            imageUrl = "https://example.com/pizza.jpg"
-        )
+        val originalDto =
+            MenuItemDto(
+                id = 1,
+                name = "Pizza Margherita",
+                description = "Pizza com tomate e manjericão",
+                price = 29.90,
+                imageUrl = "https://example.com/pizza.jpg",
+            )
 
         // When
         val domain = originalDto.toDomain()
@@ -165,13 +171,14 @@ class MenuItemMapperTest {
     @Test
     fun `mapeamento deve funcionar com preços decimais`() {
         // Given
-        val dto = MenuItemDto(
-            id = 1,
-            name = "Item com preço decimal",
-            description = "Teste de precisão",
-            price = 19.999,
-            imageUrl = ""
-        )
+        val dto =
+            MenuItemDto(
+                id = 1,
+                name = "Item com preço decimal",
+                description = "Teste de precisão",
+                price = 19.999,
+                imageUrl = "",
+            )
 
         // When
         val domain = dto.toDomain()
@@ -184,13 +191,14 @@ class MenuItemMapperTest {
     fun `mapeamento deve funcionar com URLs longas`() {
         // Given
         val longUrl = "https://example.com/images/products/pizza-margherita-large-resolution-high-quality.jpg"
-        val dto = MenuItemDto(
-            id = 1,
-            name = "Pizza",
-            description = "Pizza",
-            price = 29.90,
-            imageUrl = longUrl
-        )
+        val dto =
+            MenuItemDto(
+                id = 1,
+                name = "Pizza",
+                description = "Pizza",
+                price = 29.90,
+                imageUrl = longUrl,
+            )
 
         // When
         val domain = dto.toDomain()

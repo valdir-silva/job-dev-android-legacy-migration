@@ -1,10 +1,12 @@
 package com.goomer.ps.domain.model
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class CardapioResultTest {
-
     @Test
     fun `Loading deve ter propriedades corretas`() {
         // Given
@@ -142,7 +144,7 @@ class CardapioResultTest {
     @Test
     fun `onResult deve retornar Failure quando bloco lança exceção`() {
         // When
-        val result = onResult { throw Exception("Erro") }
+        val result = onResult { throw IllegalArgumentException("Erro") }
 
         // Then
         assertTrue(result is CardapioResult.Failure)
@@ -206,7 +208,7 @@ class CardapioResultTest {
         val success = CardapioResult.Success("teste")
 
         // When
-        val result = success.onResultSuccess { throw Exception("Erro no bloco") }
+        val result = success.onResultSuccess { throw IllegalArgumentException("Erro no bloco") }
 
         // Then
         assertTrue(result is CardapioResult.Failure)
@@ -222,10 +224,11 @@ class CardapioResultTest {
         var capturedException: Throwable? = null
 
         // When
-        val result = failure.onResultFailure { e ->
-            executed = true
-            capturedException = e
-        }
+        val result =
+            failure.onResultFailure { e ->
+                executed = true
+                capturedException = e
+            }
 
         // Then
         assertTrue(executed)

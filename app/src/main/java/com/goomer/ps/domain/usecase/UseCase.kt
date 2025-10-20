@@ -27,7 +27,6 @@ import kotlinx.coroutines.withContext
  * @param P Tipo de parâmetros de entrada (use Unit se não houver parâmetros)
  */
 abstract class UseCase<out T, in P> {
-
     /**
      * @param parameters Parâmetros de entrada para o UseCase
      * @return Resultado da operação (CardapioResult)
@@ -38,15 +37,20 @@ abstract class UseCase<out T, in P> {
      * @param parameters Parâmetros de entrada para o UseCase
      * @return Resultado da operação (CardapioResult)
      */
-    suspend operator fun invoke(parameters: P): CardapioResult<T> = withContext(Dispatchers.IO) {
-        try {
-            execute(parameters)
-        } catch (e: Throwable) {
-            CardapioResult.Failure(
-                throwable = e
-            )
+    suspend operator fun invoke(parameters: P): CardapioResult<T> =
+        withContext(Dispatchers.IO) {
+            try {
+                execute(parameters)
+            } catch (e: IllegalArgumentException) {
+                CardapioResult.Failure(
+                    throwable = e,
+                )
+            } catch (e: IllegalStateException) {
+                CardapioResult.Failure(
+                    throwable = e,
+                )
+            }
         }
-    }
 }
 
 /**
@@ -56,21 +60,19 @@ abstract class UseCase<out T, in P> {
  * ```kotlin
  * class GetMenuItemsUseCase(private val repository: MenuRepository) :
  *     SampleUseCase<List<MenuItem>, Unit>() {
- * 
+ *
  *     override suspend fun execute(parameters: Unit) = repository.getMenuItems()
  * }
- * 
+ *
  * // Chamada
  * val result = useCase()
  * ```
- * 
+ *
  * @param T Tipo de dados retornado pelo UseCase
  */
 abstract class UseCaseNoParams<out T> : UseCase<T, Unit>() {
-    
     /**
      * @return Resultado da operação (CardapioResult)
      */
     suspend operator fun invoke(): CardapioResult<T> = invoke(Unit)
 }
-

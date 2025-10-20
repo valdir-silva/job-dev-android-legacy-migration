@@ -22,7 +22,6 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
 class KoinModulesTest : KoinTest {
-
     @Mock
     private lateinit var mockContext: Context
 
@@ -49,10 +48,9 @@ class KoinModulesTest : KoinTest {
                 dataModule,
                 domainModule,
                 presentationModule,
-
                 module {
                     factory { mockSavedStateHandle }
-                }
+                },
             )
         }
 
@@ -69,7 +67,7 @@ class KoinModulesTest : KoinTest {
         assertNotNull(getMenuItemsUseCase)
         assertNotNull(getMenuItemByIdUseCase)
         assertNotNull(viewModel)
-        
+
         // Verificar que as dependências foram resolvidas corretamente
         assertNotNull(repository)
         assertNotNull(getMenuItemsUseCase)
@@ -84,7 +82,7 @@ class KoinModulesTest : KoinTest {
 
         val repository: CardapioRepository by inject()
         val localDataSource: LocalCardapioDataSource by inject()
-        
+
         assertNotNull(repository)
         assertNotNull(localDataSource)
     }
@@ -99,7 +97,7 @@ class KoinModulesTest : KoinTest {
         val getMenuItemsUseCase: GetMenuItemsUseCase by inject()
         val getMenuItemByIdUseCase: GetMenuItemByIdUseCase by inject()
         val repository: CardapioRepository by inject()
-        
+
         assertNotNull(getMenuItemsUseCase)
         assertNotNull(getMenuItemByIdUseCase)
         assertNotNull(repository)
@@ -110,19 +108,18 @@ class KoinModulesTest : KoinTest {
         startKoin {
             androidContext(mockContext)
             modules(
-                dataModule, 
-                domainModule, 
+                dataModule,
+                domainModule,
                 presentationModule,
-
                 module {
                     factory { mockSavedStateHandle }
-                }
+                },
             )
         }
 
         val viewModel: MenuListViewModel by inject()
         val useCase: GetMenuItemsUseCase by inject()
-        
+
         assertNotNull(viewModel)
         assertNotNull(useCase)
     }
@@ -134,9 +131,9 @@ class KoinModulesTest : KoinTest {
         }
 
         val gson: Gson by inject()
-        
+
         assertNotNull(gson)
-        
+
         // Verificar que Gson está configurado corretamente
         val testJson = """{"test": "value"}"""
         val parsed = gson.fromJson(testJson, Map::class.java)
