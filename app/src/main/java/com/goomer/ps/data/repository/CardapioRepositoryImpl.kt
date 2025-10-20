@@ -27,6 +27,8 @@ class CardapioRepositoryImpl(
                 emit(domainList)
             } catch (e: DataException) {
                 throw RepositoryException("Erro no repositório ao obter itens do menu: ${e.message}", e)
+            } catch (e: IllegalStateException) {
+                throw RepositoryException("Erro no repositório ao obter itens do menu: ${e.message}", e)
             }
         }
 
@@ -38,6 +40,8 @@ class CardapioRepositoryImpl(
                 val item = domainList.find { it.id == itemId }
                 emit(item)
             } catch (e: DataException) {
+                throw RepositoryException("Erro no repositório ao obter item do menu: ${e.message}", e)
+            } catch (e: IllegalStateException) {
                 throw RepositoryException("Erro no repositório ao obter item do menu: ${e.message}", e)
             }
         }

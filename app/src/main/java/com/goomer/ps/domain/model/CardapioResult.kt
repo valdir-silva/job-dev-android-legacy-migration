@@ -59,6 +59,8 @@ inline fun <T> onResult(block: () -> T): CardapioResult<T> =
         CardapioResult.Success(requireNotNull(block()))
     } catch (e: IllegalArgumentException) {
         CardapioResult.Failure(e)
+    } catch (e: IllegalStateException) {
+        CardapioResult.Failure(e)
     }
 
 /**

@@ -12,6 +12,7 @@ import org.junit.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import java.io.ByteArrayInputStream
+import java.io.IOException
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class LocalCardapioDataSourceTest {
@@ -95,7 +96,7 @@ class LocalCardapioDataSourceTest {
         runTest {
             // Given
             whenever(mockAssetManager.open("menu.json"))
-                .thenThrow(RuntimeException("Arquivo não encontrado"))
+                .thenThrow(IOException("Arquivo não encontrado"))
 
             // When/Then
             try {
@@ -120,7 +121,7 @@ class LocalCardapioDataSourceTest {
                 dataSource.loadMenuItems()
                 fail("Deveria lançar exceção")
             } catch (e: Exception) {
-                assertTrue(e.message?.contains("Erro ao carregar itens do menu") == true)
+                assertTrue(e.message?.contains("Erro ao processar dados do menu") == true)
             }
         }
 

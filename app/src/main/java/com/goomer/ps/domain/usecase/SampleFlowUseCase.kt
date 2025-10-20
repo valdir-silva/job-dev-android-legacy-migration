@@ -42,6 +42,13 @@ abstract class SampleFlowUseCase<out T, in P> {
                         throwable = e,
                     ),
                 )
+            } catch (e: IllegalStateException) {
+                flowOf(
+                    CardapioResult.Loading(),
+                    CardapioResult.Failure(
+                        throwable = e,
+                    ),
+                )
             }
         }
 }

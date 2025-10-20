@@ -89,7 +89,7 @@ class CardapioRepositoryTest {
     fun `getMenuItems deve lançar exceção quando DataSource falha`() =
         runTest {
             // Given
-            val exception = RuntimeException("Erro ao ler arquivo")
+            val exception = IllegalStateException("Erro ao ler arquivo")
             whenever(localDataSource.loadMenuItems()).thenThrow(exception)
 
             // When/Then
@@ -155,7 +155,7 @@ class CardapioRepositoryTest {
     fun `getMenuItemById deve lançar exceção quando DataSource falha`() =
         runTest {
             // Given
-            val exception = RuntimeException("Erro ao ler arquivo")
+            val exception = IllegalStateException("Erro ao ler arquivo")
             whenever(localDataSource.loadMenuItems()).thenThrow(exception)
 
             // When/Then

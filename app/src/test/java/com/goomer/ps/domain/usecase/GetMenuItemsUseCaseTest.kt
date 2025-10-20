@@ -50,7 +50,7 @@ class GetMenuItemsUseCaseTest {
     fun `invoke should return Error when repository throws exception`() =
         runTest {
             // Given
-            val exception = RuntimeException("Network error")
+            val exception = IllegalArgumentException("Network error")
             whenever(repository.getMenuItems()).thenThrow(exception)
 
             // When

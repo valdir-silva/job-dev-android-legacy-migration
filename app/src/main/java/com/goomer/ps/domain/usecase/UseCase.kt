@@ -45,6 +45,10 @@ abstract class UseCase<out T, in P> {
                 CardapioResult.Failure(
                     throwable = e,
                 )
+            } catch (e: IllegalStateException) {
+                CardapioResult.Failure(
+                    throwable = e,
+                )
             }
         }
 }

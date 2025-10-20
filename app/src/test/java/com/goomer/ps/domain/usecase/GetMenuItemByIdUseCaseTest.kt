@@ -88,7 +88,7 @@ class GetMenuItemByIdUseCaseTest {
     fun `invoke should return Error when repository throws exception`() =
         runTest {
             // Given
-            val exception = RuntimeException("Database error")
+            val exception = IllegalArgumentException("Database error")
             whenever(repository.getMenuItemById(1)).thenThrow(exception)
 
             // When
