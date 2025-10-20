@@ -38,7 +38,7 @@ class GetMenuItemByIdUseCaseTest {
 
         // Then
         assertTrue(result is CardapioResult.Success)
-        assertEquals(expectedItem, (result as CardapioResult.Success).data)
+        assertEquals(expectedItem, (result as CardapioResult.Success).value)
     }
 
     @Test
@@ -51,31 +51,33 @@ class GetMenuItemByIdUseCaseTest {
         val result = results[1]
 
         // Then
-        assertTrue(result is CardapioResult.Error)
-        val errorResult = result as CardapioResult.Error
-        assertTrue(errorResult.message.contains("Item não encontrado"))
+        assertTrue(result is CardapioResult.Failure)
+        val errorResult = result as CardapioResult.Failure
+        assertTrue(errorResult.throwable?.message?.contains("Item não encontrado") == true)
     }
 
     @Test
     fun `invoke should return Error when id is invalid negative`() = runTest {
         // When
-        val result = useCase.invoke(-1).first()
+        val results = useCase.invoke(-1).toList()
 
         // Then
-        assertTrue(result is CardapioResult.Error)
-        val errorResult = result as CardapioResult.Error
-        assertTrue(errorResult.message.contains("ID inválido"))
+        assertTrue(results[0] is CardapioResult.Loading)
+        assertTrue(results[1] is CardapioResult.Failure)
+        val errorResult = results[1] as CardapioResult.Failure
+        assertTrue(errorResult.throwable?.message?.contains("ID inválido") == true)
     }
 
     @Test
     fun `invoke should return Error when id is zero`() = runTest {
         // When
-        val result = useCase.invoke(0).first()
+        val results = useCase.invoke(0).toList()
 
         // Then
-        assertTrue(result is CardapioResult.Error)
-        val errorResult = result as CardapioResult.Error
-        assertTrue(errorResult.message.contains("ID inválido"))
+        assertTrue(results[0] is CardapioResult.Loading)
+        assertTrue(results[1] is CardapioResult.Failure)
+        val errorResult = results[1] as CardapioResult.Failure
+        assertTrue(errorResult.throwable?.message?.contains("ID inválido") == true)
     }
 
     @Test
@@ -89,9 +91,9 @@ class GetMenuItemByIdUseCaseTest {
         val result = results[1]
 
         // Then
-        assertTrue(result is CardapioResult.Error)
-        val errorResult = result as CardapioResult.Error
-        assertTrue(errorResult.message.contains("Erro ao carregar item do menu"))
+        assertTrue(result is CardapioResult.Failure)
+        val errorResult = result as CardapioResult.Failure
+        assertTrue(errorResult.throwable?.message?.contains("Database error") == true)
         assertNotNull(errorResult.throwable)
     }
 }
