@@ -47,8 +47,8 @@ Migrar fluxo de lista de produtos para Kotlin + MVVM + Clean Architecture + Koin
 - [x] Testar Koin modules (grafo de dependências)
 
 ### Fase 7: Qualidade
-- [ ] Configurar detekt + ktlint
-- [ ] GitHub Actions CI
+- [x] Configurar detekt + ktlint
+- [x] GitHub Actions CI
 - [ ] Limpar warnings e aplicar sugestões
 
 ### Fase 8: Documentação
