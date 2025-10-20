@@ -41,7 +41,7 @@ abstract class UseCase<out T, in P> {
         withContext(Dispatchers.IO) {
             try {
                 execute(parameters)
-            } catch (e: Throwable) {
+            } catch (e: IllegalArgumentException) {
                 CardapioResult.Failure(
                     throwable = e,
                 )
