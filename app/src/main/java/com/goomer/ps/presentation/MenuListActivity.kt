@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.goomer.ps.R
 import com.goomer.ps.databinding.ActivityMenuListBinding
 import com.goomer.ps.domain.model.CardapioResult
 import com.goomer.ps.domain.model.MenuItem
@@ -56,7 +57,7 @@ class MenuListActivity :
                 when (result) {
                     is CardapioResult.Loading -> showLoading()
                     is CardapioResult.Success -> showSuccess(result.value)
-                    is CardapioResult.Failure -> showError(result.throwable?.message)
+                    is CardapioResult.Failure -> showError(result.throwable)
                 }
             }
         }
@@ -76,12 +77,13 @@ class MenuListActivity :
         adapter.submitList(items)
     }
 
-    private fun showError(message: String?) {
+    private fun showError(throwable: Throwable?) {
         binding.progressBar.visibility = View.GONE
         binding.errorContainer.visibility = View.VISIBLE
         binding.rvMenu.visibility = View.GONE
 
-        binding.tvError.text = message.orEmpty()
+        val errorMessage = viewModel.getErrorMessage(throwable)
+        binding.tvError.text = errorMessage
     }
 
     override fun onItemClick(item: MenuItem) {
@@ -90,11 +92,11 @@ class MenuListActivity :
                 this,
                 MenuDetailActivity::class.java,
             ).apply {
-                putExtra("id", item.id)
-                putExtra("name", item.name)
-                putExtra("description", item.description)
-                putExtra("price", item.price)
-                putExtra("imageUrl", item.imageUrl)
+                putExtra(getString(R.string.extra_key_id), item.id)
+                putExtra(getString(R.string.extra_key_name), item.name)
+                putExtra(getString(R.string.extra_key_description), item.description)
+                putExtra(getString(R.string.extra_key_price), item.price)
+                putExtra(getString(R.string.extra_key_image_url), item.imageUrl)
             }
         startActivity(intent)
     }
