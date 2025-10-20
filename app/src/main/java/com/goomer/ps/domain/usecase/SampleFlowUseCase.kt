@@ -35,7 +35,7 @@ abstract class SampleFlowUseCase<out T, in P> {
                             ),
                         )
                     }
-            } catch (e: Throwable) {
+            } catch (e: IllegalArgumentException) {
                 flowOf(
                     CardapioResult.Loading(),
                     CardapioResult.Failure(

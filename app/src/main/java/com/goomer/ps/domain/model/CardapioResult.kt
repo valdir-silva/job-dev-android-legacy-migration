@@ -57,7 +57,7 @@ sealed class CardapioResult<out R>(
 inline fun <T> onResult(block: () -> T): CardapioResult<T> =
     try {
         CardapioResult.Success(requireNotNull(block()))
-    } catch (e: Throwable) {
+    } catch (e: IllegalArgumentException) {
         CardapioResult.Failure(e)
     }
 

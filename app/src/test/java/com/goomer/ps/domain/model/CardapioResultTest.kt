@@ -1,5 +1,6 @@
 package com.goomer.ps.domain.model
 
+import com.goomer.ps.domain.TestException
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -144,7 +145,7 @@ class CardapioResultTest {
     @Test
     fun `onResult deve retornar Failure quando bloco lança exceção`() {
         // When
-        val result = onResult { throw Exception("Erro") }
+        val result = onResult { throw TestException("Erro") }
 
         // Then
         assertTrue(result is CardapioResult.Failure)
@@ -208,7 +209,7 @@ class CardapioResultTest {
         val success = CardapioResult.Success("teste")
 
         // When
-        val result = success.onResultSuccess { throw Exception("Erro no bloco") }
+        val result = success.onResultSuccess { throw TestException("Erro no bloco") }
 
         // Then
         assertTrue(result is CardapioResult.Failure)
