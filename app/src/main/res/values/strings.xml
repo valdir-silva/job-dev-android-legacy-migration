@@ -6,4 +6,19 @@
     <string name="error_generic">Ocorreu um erro ao carregar o cardápio.</string>
     <string name="retry">Tentar novamente</string>
     <string name="price">Preço: R$ %1$.2f</string>
+
+    <!-- Mensagens de erro para o usuário -->
+    <string name="error_load_menu">Erro ao carregar o cardápio. Por favor, tente novamente.</string>
+    <string name="error_invalid_id">ID inválido: %1$d. ID deve ser maior que zero</string>
+    <string name="error_item_not_found">Item não encontrado: ID %1$d</string>
+
+    <!-- Chaves de Intent extras -->
+    <string name="extra_key_id">id</string>
+    <string name="extra_key_name">name</string>
+    <string name="extra_key_description">description</string>
+    <string name="extra_key_price">price</string>
+    <string name="extra_key_image_url">imageUrl</string>
+
+    <!-- Chave de SavedState -->
+    <string name="saved_state_menu_items">menuItems</string>
 </resources>

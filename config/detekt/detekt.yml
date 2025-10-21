@@ -1,0 +1,42 @@
+build:
+  maxIssues: 10
+
+complexity:
+  active: true
+  CyclomaticComplexMethod:
+    active: true
+    threshold: 10
+  LongParameterList:
+    active: true
+    functionThreshold: 6
+    constructorThreshold: 6
+
+style:
+  active: true
+  MaxLineLength:
+    active: true
+    maxLineLength: 120
+  ForbiddenComment:
+    active: true
+    comments: ['TODO:', 'FIXME:', 'STOPSHIP:']
+
+naming:
+  active: true
+
+potential-bugs:
+  active: true
+  UnsafeCallOnNullableType:
+    active: true
+  UnsafeCast:
+    active: true
+
+performance:
+  active: true
+  ForEachOnRange:
+    active: true
+
+coroutines:
+  active: true
+  GlobalCoroutineUsage:
+    active: true
+

@@ -1,5 +1,9 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-    id("com.android.application") version "8.5.2"
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ktlint)
 }
 
 android {
@@ -18,19 +22,44 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
+            buildConfigField("String", "BASE_URL", "\"https://api.production.com/\"")
+            buildConfigField("boolean", "ENABLE_LOGGING", "false")
         }
+
+        create("preProd") {
+            isMinifyEnabled = false
+            applicationIdSuffix = ".preprod"
+            versionNameSuffix = "-preprod"
+            buildConfigField("String", "BASE_URL", "\"https://api.preprod.com/\"")
+            buildConfigField("boolean", "ENABLE_LOGGING", "true")
+        }
+
+        create("mock") {
+            isMinifyEnabled = false
+            applicationIdSuffix = ".mock"
+            versionNameSuffix = "-mock"
+            buildConfigField("String", "BASE_URL", "\"https://api.mock.com/\"")
+            buildConfigField("boolean", "ENABLE_LOGGING", "true")
+            buildConfigField("boolean", "USE_MOCK_DATA", "true")
+        }
+
         debug {
             isMinifyEnabled = false
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+            buildConfigField("String", "BASE_URL", "\"https://api.debug.com/\"")
+            buildConfigField("boolean", "ENABLE_LOGGING", "true")
         }
     }
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     compileOptions {
@@ -39,16 +68,39 @@ android {
     }
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
+}
+
+apply(plugin = "kotlin-parcelize")
+
+ktlint {
+    android.set(true)
+    ignoreFailures.set(false)
+    reporters {
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN)
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.HTML)
+    }
+}
+
 dependencies {
-    implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("com.google.android.material:material:1.12.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    // Android Core Bundle
+    implementation(libs.bundles.androidx.core)
 
-    implementation("com.google.code.gson:gson:2.10.1")
+    // Kotlin Coroutines Bundle
+    implementation(libs.bundles.kotlin.coroutines)
 
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    // Koin Dependency Injection Bundle
+    implementation(libs.bundles.koin)
+
+    // Gson JSON Serialization
+    implementation(libs.gson)
+
+    // Testing Bundle
+    testImplementation(libs.bundles.testing)
+    testImplementation(libs.bundles.mockito)
+    testImplementation(libs.koin.test)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
