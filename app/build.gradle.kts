@@ -86,6 +86,12 @@ ktlint {
 }
 
 dependencies {
+    // Módulos do projeto
+    implementation(project(":core"))
+    implementation(project(":domain"))
+    implementation(project(":data"))
+    implementation(project(":presentation"))
+
     // Android Core Bundle
     implementation(libs.bundles.androidx.core)
 
@@ -95,7 +101,7 @@ dependencies {
     // Koin Dependency Injection Bundle
     implementation(libs.bundles.koin)
 
-    // Gson JSON Serialization
+    // Gson JSON Serialization (necessário para o módulo data)
     implementation(libs.gson)
 
     // Testing Bundle

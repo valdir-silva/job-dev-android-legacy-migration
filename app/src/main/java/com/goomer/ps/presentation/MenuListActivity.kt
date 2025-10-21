@@ -82,9 +82,16 @@ class MenuListActivity :
         binding.errorContainer.visibility = View.VISIBLE
         binding.rvMenu.visibility = View.GONE
 
-        val errorMessage = viewModel.getErrorMessage(throwable)
+        val errorMessage = getErrorMessage(throwable)
         binding.tvError.text = errorMessage
     }
+
+    private fun getErrorMessage(throwable: Throwable?): String =
+        when (throwable?.message) {
+            com.goomer.ps.domain.exception.ErrorCode.INVALID_ID.name -> getString(R.string.error_invalid_id, 0)
+            com.goomer.ps.domain.exception.ErrorCode.ITEM_NOT_FOUND.name -> getString(R.string.error_item_not_found, 0)
+            else -> getString(R.string.error_load_menu)
+        }
 
     override fun onItemClick(item: MenuItem) {
         val intent =
